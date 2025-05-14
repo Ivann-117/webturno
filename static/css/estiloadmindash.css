@@ -1,0 +1,39 @@
+/* Estilo para la tabla */
+table.table-striped tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  th, td {
+    padding: 10px 15px;
+    text-align: center;
+  }
+  
+  .table-bordered {
+    border: 1px solid #ddd;
+  }
+  
+  .table-striped tbody tr:nth-child(even) {
+    background-color: #f9f5f9f9;
+  }
+  
+  /* Estilos de los botones */
+  .btn-success, .btn-danger, .btn-primary {
+    border-radius: 50px;
+  }
+  
+  .btn-success:hover, .btn-danger:hover, .btn-primary:hover {
+    opacity: 0.8;
+  }
+  
+  /* Estilo para el modal */
+  .modal-content {
+    border-radius: 8px;
+  }
+  
+  .modal-header {
+    background-color: #6f068f; /* Puedes cambiar este color por el que prefieras */
+    color: rgb(255, 255, 255); /* Asegura que el texto sea legible */   
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
