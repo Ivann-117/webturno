@@ -56,7 +56,7 @@ def admin_dashboard():
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT id, numero_documento, nombre, apellido1, apellido2, rol,
+            SELECT id, tipo_documento, numero_documento, nombre, apellido1, apellido2, rol,
                    COALESCE(estado_turno,'') AS estado_turno
             FROM usuarios
         """)
@@ -65,9 +65,9 @@ def admin_dashboard():
         conn.close()
 
     response = make_response(render_template('admin_dashboard.html', users=users))
-    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = '-1'
+    response.headers['Expires'] = '0'
     return response
 
 @admin_bp.route('/admin_create', methods=['POST'])
@@ -83,12 +83,41 @@ def admin_create():
     rol = request.form.get('rol', '').strip()
 
     if not all([tipo, numero, anio, nombre, ap1, ap2, rol]):
+        # Carga usuarios para que el dashboard los muestre
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT id, tipo_documento, numero_documento, nombre, apellido1, apellido2, rol,
+                       COALESCE(estado_turno,'') AS estado_turno
+                FROM usuarios
+            """)
+            users = cursor.fetchall()
+        finally:
+            conn.close()
+
         flash('Todos los campos son obligatorios.')
-        return redirect(url_for('admin.admin_dashboard'))
+        return render_template('admin_dashboard.html', users=users, error='Todos los campos son obligatorios.', show_modal=True)
 
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
+        # Validar si el número ya existe para ese tipo
+        cursor.execute(
+            "SELECT * FROM usuarios WHERE tipo_documento=? AND numero_documento=?",
+            (tipo, numero)
+        )
+        if cursor.fetchone():
+            # Carga usuarios para que el dashboard los muestre
+            cursor.execute("""
+                SELECT id, tipo_documento, numero_documento, nombre, apellido1, apellido2, rol,
+                       COALESCE(estado_turno,'') AS estado_turno
+                FROM usuarios
+            """)
+            users = cursor.fetchall()
+            flash('El número de documento ya está registrado.')
+            return render_template('admin_dashboard.html', users=users, error='El número de documento ya está registrado.', show_modal=True)
+
         cursor.execute(
             'INSERT INTO usuarios (tipo_documento, numero_documento, anio_nacimiento, nombre, apellido1, apellido2, rol) '
             'VALUES (?, ?, ?, ?, ?, ?, ?)',
@@ -99,7 +128,7 @@ def admin_create():
         conn.close()
 
     flash('Usuario/Admin creado correctamente.')
-    return redirect(url_for('admin.admin_dashboard'))
+    return redirect(url_for('admin.admin_dashboard', success=1))
 
 @admin_bp.route('/admin_update', methods=['POST'])
 @login_required
