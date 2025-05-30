@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login1.css') }}" />
+  <style>
+    
+  </style>
+</head>
+<body>
+  <div class="login-page">
+    <div class="form">
+      <form method="POST" action="/login">
+        <h2>Iniciar sesión</h2>
+
+        <select name="tipo_documento" required>
+          <option value="">Tipo de documento</option>
+          <option value="C.C.">C.C.</option>
+          <option value="T.I.">T.I.</option>
+          <option value="C.E.">C.E.</option>
+        </select>
+
+        <input type="text" name="numero_documento" placeholder="Número de documento" required>
+        <input type="text" name="fecha_nacimiento" placeholder="Fecha de nacimiento" required>
+
+        <button type="submit">Iniciar sesión</button>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="message">
+              {{ messages[0] }}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <p class="message">¿Nuevo? <a href="{{ url_for('registro') }}">Regístrate</a></p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

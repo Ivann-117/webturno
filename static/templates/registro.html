@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrarse</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/usuario_registro.css') }}">
+</head>
+<body>
+
+    
+    <form method="POST" action="/registro" class="form-register">
+        <h4>Registrar Nuevo Usuario</h4>
+            
+        <!-- Mostrar mensaje de éxito -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class="alert alert-success">{{ messages[0] }}</p>
+            {% endif %}
+        {% endwith %}
+
+        {% if error %}
+        <div style="color: rgb(255, 153, 0); font-weight: bold; margin-bottom: 15px;">
+            {{ error }}
+        </div>
+            {% endif %}
+
+        <!-- Tipo de documento -->
+        <select class="controls" id="tipo_documento" name="tipo_documento" required>
+            <option value="">Tipo de documento</option>
+            <option value="C.C.">C.C.</option>
+            <option value="T.I.">T.I.</option>
+            <option value="C.E.">C.E.</option>
+        </select>
+
+        <!-- Número de documento -->
+        <input type="text" id="numero_documento" name="numero_documento" class="controls" placeholder="Número de documento" required>
+
+        <!-- Fecha de nacimiento -->
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="controls" required>
+
+        <!-- Nombre -->
+        <input type="text" id="nombre" name="nombre" class="controls" placeholder="Nombre" required>
+
+        <!-- Primer apellido -->
+        <input type="text" id="apellido1" name="apellido1" class="controls" placeholder="Primer apellido" required>
+
+        <!-- Segundo apellido -->
+        <input type="text" id="apellido2" name="apellido2" class="controls" placeholder="Segundo apellido" required>
+
+        <button type="submit" class="botons">Registrar</button>
+
+        <div class="text-center">
+            <a href="{{ url_for('logout_turno') }}">← Regresar</a>
+        </div>
+    </form>
+
+</body>
+</html>
