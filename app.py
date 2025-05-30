@@ -94,22 +94,20 @@ def turnos():
     usuario = session['usuario']
     nombre_usuario = f"{usuario['nombre']} {usuario['apellido1']} {usuario['apellido2']}"
     cedes = {
-        'Facebook':'https://facebook.com',
-        'YouTube':'https://youtube.com',
-        'Twitter':'https://twitter.com',
-        'Instagram':'https://instagram.com',
-        'TikTok':'https://tiktok.com'
+        'Nueva Eps':'https://www.nuevaeps.com.co/turno-en-Oficina-de-Atención-al-Afiliado',
+        'Asmet Salud':'https://www.asmetsalud.com/tramite-a-la-mano',
+        'Sanitas':'https://www.epssanitas.com/usuarios/web/nuevo-portal-eps/citas-medicas',
+        'A I C':'https://aicsalud.org.co/services/'
     }
     return render_template('turnos.html', cedes=cedes, nombre_usuario=nombre_usuario)
 
 @app.route('/asignar_turno/<lugar>')
 def asignar_turno(lugar):
     cedes = {
-        'Facebook':'https://facebook.com',
-        'YouTube':'https://youtube.com',
-        'Twitter':'https://twitter.com',
-        'Instagram':'https://instagram.com',
-        'TikTok':'https://tiktok.com'
+        'Nueva Eps':'https://www.nuevaeps.com.co/turno-en-Oficina-de-Atención-al-Afiliado',
+        'Asmet Salud':'https://www.asmetsalud.com/tramite-a-la-mano',
+        'Sanitas':'https://www.epssanitas.com/usuarios/web/nuevo-portal-eps/citas-medicas',
+        'A I C':'https://aicsalud.org.co/services/'
     }
     return redirect(cedes.get(lugar, url_for('turnos')))
 
