@@ -1,75 +1,11 @@
+/* Fondo general con gradiente oscuro */
 body {
-  background: linear-gradient(to left, #174142, #262527) !important;
-  background-attachment: fixed;
-}
-.container {
-  background-color: rgb(255, 255, 255); /* o bg-light para mantenerlo limpio */
-  padding: 4rem;
-  border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-}
-
-/* Estilo para la tabla */
-table.table-striped tbody tr:hover {
-  background-color: #f1f1f1;
-}
-
-th, td {
-  padding: 10px 15px;
-  text-align: center;
-}
-
-.table-bordered { 
-  border: 1px solid #ddd;
-}
-
-.table-striped tbody tr:nth-child(even) {
-  background-color: #f9f5f9f9;
-}
-
-/* Estilos de los botones */
-.btn-success, .btn-danger, .btn-primary {
-  border-radius: 50px;
-}
-
-.btn-success:hover, .btn-danger:hover, .btn-primary:hover {
-  opacity: 0.8;
-}
-
-/* Estilos de los botones */
-.btn-success, .btn-danger, .btn-primary {
-  border-radius: 50px;
-  font-family: 'calibri', sans-serif;
-  font-weight: 600;
-  transition: opacity 0.3s ease;
-}
-
-.btn-success {
-  background-color: #1f53c5; /* azul */
-  border: none;
-  color: white;
-}
-
-.btn-danger {
-  background-color: #b22222; /* rojo oscuro */
-  border: none;
-  color: white;
-}
-
-.btn-primary {
-  background-color: #24303c; /* fondo oscuro */
-  border: 1px solid #1760a5;
-  color: white;
-}
-
-.btn-success:hover, .btn-danger:hover, .btn-primary:hover {
-  opacity: 0.8;
-}
-
-
-
-
-
+    background: linear-gradient(to right, #1f1f1f, #2c3e50);    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+  }
+  
+  
 /* Navbar base */
 .navbar {
   background: linear-gradient(to left, #174142, #262527) !important;
@@ -98,7 +34,7 @@ th, td {
 .navbar-nav .nav-link {
   color: #ddd;
   font-weight: 600;
-  margin-left: 25px;
+  margin-left: 20px;
   padding: 8px 12px;
   border-radius: 50px;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -145,3 +81,57 @@ th, td {
     text-align: center;
   }
 }
+  
+  /* Títulos */
+  h2, h3 {
+    color: #f0f4ff;
+        
+  }
+  
+  /* Botones grandes y bonitos */
+  .menu-btn {
+    width: 220px;
+    height: 220px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #1f53c5, #3d6bff);
+    border: none;
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.4s;
+  }
+  
+  .menu-btn:hover {
+    transform: scale(1.08);
+    background: linear-gradient(to right, #3d6bff, #1f53c5);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Contenedor principal centrado */
+  .container {
+    padding-top: 30px;
+    padding-bottom: 40px;
+  }
+  
+  /* Alertas */
+  .alert {
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: #3d6bff;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 768px) {
+    .menu-btn {
+      width: 150px;
+      height: 150px;
+      font-size: 1.2rem;
+    }
+  }
+  
