@@ -23,7 +23,6 @@ def login():
     tipo_documento = request.form['tipo_documento']
     numero_documento = request.form['numero_documento']
     fecha_nacimiento = request.form['fecha_nacimiento'][:4]
-    # ... validaciones ...
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute(
@@ -42,7 +41,7 @@ def login():
         return redirect(url_for('admin.admin_login'))
     return redirect(url_for('turnos'))
 
-@app.route('/registro', methods=['GET','POST'])
+@app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
         tipo = request.form['tipo_documento']
@@ -51,35 +50,41 @@ def registro():
         nombre = request.form['nombre']
         ap1 = request.form['apellido1']
         ap2 = request.form['apellido2']
+
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute(
-            "SELECT * FROM usuarios WHERE tipo_documento=? AND numero_documento=?",
-            (tipo, numero)
-        )
+
+        # Validación para evitar duplicados por número_documento sin importar tipo
+        cursor.execute("SELECT * FROM usuarios WHERE numero_documento=?", (numero,))
         if cursor.fetchone():
-            flash('El usuario ya está registrado')
-            return redirect(url_for('home'))
+            error_msg = 'El número de documento ya está registrado. Por favor, verifica o cambia la información.'
+            conn.close()
+            # En lugar de redirigir, devolvemos el formulario con el error y los datos que el usuario ingresó para que pueda corregirlos
+            return render_template('registro.html', error=error_msg, 
+                                   tipo_documento=tipo, numero_documento=numero,
+                                   fecha_nacimiento=request.form['fecha_nacimiento'], nombre=nombre,
+                                   apellido1=ap1, apellido2=ap2)
 
         cursor.execute(
             "INSERT INTO usuarios (tipo_documento, numero_documento, anio_nacimiento, nombre, apellido1, apellido2, rol) "
-            "VALUES (?,?,?,?,?,?, 'usuario')",
+            "VALUES (?, ?, ?, ?, ?, ?, 'usuario')",
             (tipo, numero, anio, nombre, ap1, ap2)
         )
         conn.commit()
         conn.close()
         flash('Registro exitoso')
         return redirect(url_for('home'))
+
     return render_template('registro.html')
-# Boton para cerrar sesion en el dashboar admin
+
 @app.route('/logout')
 def logout():
-    session.clear()  # o session.pop('usuario', None)
+    session.clear()
     return redirect(url_for('admin.admin_login'))
-#cerrar sesion en boton de turnos
+
 @app.route('/logout_turno')
 def logout_turno():
-    session.clear()  # o session.pop('usuario', None)
+    session.clear()
     return redirect(url_for('home'))
 
 @app.route('/turnos')
